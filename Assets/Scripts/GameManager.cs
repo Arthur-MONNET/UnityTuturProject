@@ -11,12 +11,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] float slowness = 10;
 
     bool isGameEnded = false;
+    float bonus = 0f;
 
     private void Update()
     {
         if (isGameEnded == false)
         {
-            float score = Time.timeSinceLevelLoad * 10f;
+            if(float.Parse(scoreText.text) > Time.timeSinceLevelLoad * 10f + bonus * 100f + 50f)
+            {
+                bonus = bonus + 1f;
+            }
+            float score = Time.timeSinceLevelLoad * 10f + bonus * 100f;
             scoreText.SetText(score.ToString("0"));
         }
     }
