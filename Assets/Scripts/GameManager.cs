@@ -7,8 +7,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] TextMeshPro scoreText;
+    [SerializeField] TextMeshPro highScoreText;
     [SerializeField] float timeBeforeRestart = 2;
     [SerializeField] float slowness = 10;
+
+    private void Start()
+    {
+        highScoreText.SetText(PlayerPrefs.GetInt("HighScore").ToString("0"));
+    }
 
     bool isGameEnded = false;
     float bonus = 0f;
@@ -23,6 +29,10 @@ public class GameManager : MonoBehaviour
             }
             float score = Time.timeSinceLevelLoad * 10f + bonus * 100f;
             scoreText.SetText(score.ToString("0"));
+            if(score > PlayerPrefs.GetInt("HighScore"))
+            {
+                highScoreText.SetText(score.ToString("0"));
+            }
         }
     }
 
@@ -37,6 +47,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RestartLevel()
     {
+        PlayerPrefs.SetInt("HighScore", Mathf.Max(PlayerPrefs.GetInt("HighScore"), int.Parse(scoreText.text)));
         Time.timeScale = 1f / slowness;
         Time.fixedDeltaTime = Time.fixedDeltaTime / slowness;
 

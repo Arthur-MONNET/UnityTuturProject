@@ -75,8 +75,10 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < spawnPointsIndex.Count; i++)
         {
             float randomScale = Random.Range(0.5f, 1.0f);
-            Vector3 randomScaleVector = new Vector3(randomScale*2.5f, randomScale*4f, randomScale * 2.5f);
-            Instantiate(obstaclePrefab, spawnPoints[spawnPointsIndex[i]].position, Quaternion.identity).transform.localScale = randomScaleVector;
+            Vector3 randomScaleVector = new Vector3(randomScale*2.5f, randomScale*2.5f, randomScale * 4f);
+            GameObject obstacle = Instantiate(obstaclePrefab, spawnPoints[spawnPointsIndex[i]].position, Quaternion.identity);
+            obstacle.transform.localScale = randomScaleVector;
+            obstacle.transform.Rotate(-90, 0, 0);
         }
     }
 }
